@@ -14,21 +14,27 @@ class PID
     {
         DIRECT = 0,
         REVERSE = 1
-    };
+    }mDirection;
         auto setDirection(Direction) -> void;
-        auto setLimits(double min, double max) -> void;
-        auto setSampletime(double sampletime) -> void;
-        auto setSetpoint(double setpoint) -> void;
+        auto setLimits(const double min, const double max) -> void;
+        auto setSampletime(const double sampletime) -> void;
+        auto setSetpoint(const double setpoint) -> void;
         
 
     private: 
         double mIntegral, mPrev_error;
-        double mKp;
-        double mKi;
-        double mKd;
-        double mSampletime = 1000.0;
-        double mInvertSignal = 1.0;
+        double mKp = 1.0;
+        double mKi = 1.0;
+        double mKd = 0.0;
+        double mSampletime = 100.0;
         double mMin = 0.0, mMax = 1023.0; 
+        double mOut;
+        auto assignDirection(const double out) -> double;
+        auto mapD(const double x, const double in_min, const double in_max, const double out_min, const double out_max) -> double
+        {
+            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+        };
+
 
 
 };
